@@ -18,6 +18,5 @@ def listaJogadoresEntidade(db_item_lista) -> list:
         lista_jogadores.append(jogadorEntidade(item))
 
     return lista_jogadores
-
     '''
     return [jogadorEntidade(item) for item in db_item_lista]

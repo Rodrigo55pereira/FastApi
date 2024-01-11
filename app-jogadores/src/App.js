@@ -9,16 +9,18 @@ function App() {
 
   // Get e Set pegando o status via HOOK useState()
   const [jogadorList, setJogadorList] = useState([{}]);
-  const [jogadorNome, setJogadorNome] = useState('Neymar');
-  const [jogadorIdade, setJogadorIdade] = useState('32');
-  const [jogadorTime, setJogadorTime] = useState('PSG');
+  const [jogadorNome, setJogadorNome] = useState('');
+  const [jogadorIdade, setJogadorIdade] = useState('');
+  const [jogadorTime, setJogadorTime] = useState('');
+  const [jogadorId, setJogadorId] = useState('');
+  const [textBotao, setTextoBotao] = useState('Cadastrar');
 
   useEffect(() => {
     // Lista Jogadores
     axios.get('http://127.0.0.1:8000/jogadores')
       .then(
         resposta => {
-          console.log(resposta.data)
+          //console.log(resposta.data)
           setJogadorList(resposta.data)
         }).catch(
           error => {
@@ -27,20 +29,37 @@ function App() {
         )
   });
 
-  // Função para cadastrar jogador
-  const adicionaJogador = () => {
-    const jogador = {
-      'jogador_nome': jogadorNome,
-      'jogador_idade': jogadorIdade,
-      'jogador_time': jogadorTime
-    }
-    console.log(jogador)
+  const adicionaJogador = (jogador) => {
     axios.post('http://127.0.0.1:8000/jogadores', jogador)
       .then(resposta => {
         alert(resposta);
       }).catch(error => {
         console.log(error)
       })
+  }
+
+  // Função para atualizar jogador
+  const atualizaJogador = (jogador) => {
+    axios.put(`http://127.0.0.1:8000/jogadores/${jogadorId}`, jogador)
+      .then(resposta => {
+        alert("Jogador Atualizado com Sucesso")
+      }).catch(error => {
+        console.log(error)
+      })
+  }
+
+  // Função para cadastrar jogador
+  const adicionaAtualizaJogador = () => {
+    const jogador = {
+      'jogador_nome': jogadorNome,
+      'jogador_idade': jogadorIdade,
+      'jogador_time': jogadorTime
+    }
+    if (jogadorId !== '') {
+      atualizaJogador(jogador)
+    } else {
+      adicionaJogador(jogador)
+    }
   };
 
   return (
@@ -55,26 +74,35 @@ function App() {
           <span className='card-text'>
             <input
               onChange={evento => setJogadorNome(evento.target.value)}
-              className='mb-2 form-control' placeholder={jogadorNome}
+              className='mb-2 form-control' placeholder="Neymar"
+              value={jogadorNome}
             />
             <input
               onChange={evento => setJogadorIdade(evento.target.value)}
-
-              className='mb-2 form-control' placeholder={jogadorIdade}
+              className='mb-2 form-control' placeholder="32"
+              value={jogadorIdade}
             />
             <input
               onChange={evento => setJogadorTime(evento.target.value)}
-              className='mb-2 form-control' placeholder={jogadorTime}
+              className='mb-2 form-control' placeholder="PSG"
+              value={jogadorTime}
             />
             <button
-              onClick={adicionaJogador}
+              onClick={adicionaAtualizaJogador}
               className='btn btn-outline-success mb-4'>
-              Cadatrar
+              {textBotao}
             </button>
           </span>
           <h5 className="card text-center text-white bg-dark mb-4 pb-1">Lista de Jogadores</h5>
           <div>
-            <JogadorList jogadorList={jogadorList} />
+            <JogadorList
+              jogadorList={jogadorList}
+              setJogadorId={setJogadorId}
+              setJogadorNome={setJogadorNome}
+              setJogadorIdade={setJogadorIdade}
+              setJogadorTime={setJogadorTime}
+              setTextoBotao={setTextoBotao}
+            />
           </div>
         </div>
         <h6 className='card text-center text-light bg-success py-1'>&copy; CodeTI - {anoAtual}</h6>

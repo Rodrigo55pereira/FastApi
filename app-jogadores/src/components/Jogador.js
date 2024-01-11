@@ -12,12 +12,25 @@ function Jogador(props) {
                 }
             )
     }
+    const editaJogador = (jogador) => {
+        props.setJogadorId(jogador.id)
+        props.setJogadorNome(jogador.nome)
+        props.setJogadorIdade(jogador.idade)
+        props.setJogadorTime(jogador.time)
+        props.setTextoBotao("Atualizar")
+    }
     return (
         <div>
             <p>
                 <span className="fw-bold">
                     {props.jogador.nome} - {props.jogador.idade} - {props.jogador.time}
                 </span>
+                <button
+                    onClick={() => editaJogador(props.jogador)}
+                    className="btn btn-sm"
+                >
+                    <span className="badge rounded-pill bg-info">Editar</span>
+                </button>
                 <button
                     onClick={() => excluirJogador(props.jogador.id)}
                     className="btn btn-sm"

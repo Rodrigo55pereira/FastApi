@@ -26,3 +26,7 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+'''
+Resumindo, esse código utiliza Pydantic e Decouple para definir e carregar configurações da aplicação, incluindo informações importantes como chaves secretas, tempos de expiração e informações de banco de dados. Essas configurações podem ser facilmente ajustadas e acessadas em outros módulos do código.
+'''

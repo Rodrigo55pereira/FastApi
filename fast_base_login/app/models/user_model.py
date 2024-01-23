@@ -7,7 +7,7 @@ from typing import Optional
 
 class User(Document):
     user_id: UUID = Field(default_factory=uuid4)
-    # Indexed fornece uma busca rápida.
+    # Indexed que dizer que o valor deve ser unico
     username: Indexed(str, unique=True)
     email: Indexed(EmailStr, unique=True)
     hash_password: str
